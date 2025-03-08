@@ -20,10 +20,19 @@ with open("data.csv") as file:
   csv = pd.read_csv(file)
   # print(csv)
   st.write("### Data")
-  st.dataframe(csv)
+  # st.dataframe(csv)
+  # change dataframe to data_editor so the data on streamlit is edit-able
+  editable_data = st.data_editor(csv)
+  # new button to save the edited data
+  save_btn = st.button("Save Changes")
   # set index will set the X & Y index based on column
   st.bar_chart(csv.set_index("name")["salary"])
   # the line above will display only Name & Salary based on the data
+  
+
+  if save_btn:
+    editable_data.to_csv("data.csv", index=False)
+    st.rerun()
 
   if add_button:
     # DataFrame is a class to create new row in csv. 
